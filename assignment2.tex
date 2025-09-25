@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+
+% --- PACKAGES ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+
+% --- HYPERREF SETUP ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Math4AI: Programming Assignment 2},
+    pdfpagemode=FullScreen,
+}
+
+% --- LISTINGS (CODE) SETUP ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                   
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% --- DOCUMENT TITLE ---
+\title{\textbf{Math4AI: Linear Algebra \\ Programming Assignment 2} \\ \large \vspace{5 mm}Systems of Linear Equations \& Model Fitting}
+\author{National AI Academy}
+\date{\today}
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+
+\maketitle
+\hrule
+
+\section*{Instructions}
+
+\begin{itemize}
+    \item You are required to implement several core algorithms \textbf{from scratch}. Do not use high-level library functions (like \texttt{numpy.linalg.solve}) for the core implementation of a required function.
+    \item You \textbf{must} use \texttt{numpy} for verification of your results. This is a crucial step to help you debug your own code.
+    \item  This is an individual assignment. Any form of academic dishonesty, including plagiarism or unauthorized assistance, will be thoroughly investigated. Proven violations will result in serious disciplinary action.
+    \item For each problem, provide your Python code and the output that demonstrates its correctness and verifies it against \texttt{numpy} where required.
+    \item \textbf{Generality of Functions:} Your implementations should be robust. For vector and matrix operations, write your functions to handle inputs of arbitrary (but compatible) dimensions. For instance, a dot product function should work for 2D vectors or 100D vectors without modification.
+    \item \textbf{Notation:} Matrices are denoted by uppercase bold letters (e.g., $\mathbf{A}$), vectors by lowercase bold letters (e.g., $\mathbf{x}$), and scalars by lowercase italic letters (e.g., $c$).
+\end{itemize}
+
+\hrule\vspace{1em}
+
+\newpage
+\hrule
+\section*{Systems of Linear Equations \& Model Fitting}
+\hrule\vspace{0.5em}
+
+\subsection*{The AI Connection: Linear Models and Direct Solutions}
+Solving $\mathbf{A}\mathbf{x} = \mathbf{b}$ is the basis for \textbf{linear models}. Imagine $\mathbf{A}$ is a matrix where each row represents a customer and each column is a feature (e.g., 'time spent on site', 'number of ads clicked'). Let $\mathbf{b}$ be the total amount each customer spent. The solution vector $\mathbf{x}$ would contain the "weights" or importance of each feature. By solving for $\mathbf{x}$, we are "fitting" a model that can predict spending based on user behavior. While modern AI uses more complex methods, understanding this direct solution is the first step.
+
+
+Consider the system:
+$$ \mathbf{A} = \begin{pmatrix} 2 & 1 & 3 \\ 4 & 4 & 7 \\ 2 & 5 & 9 \end{pmatrix}, \quad \mathbf{x} = \begin{pmatrix} \text{weight}_1 \\ \text{weight}_2 \\ \text{weight}_3 \end{pmatrix}, \quad \mathbf{b} = \begin{pmatrix} 1 \\ 1 \\ 3 \end{pmatrix} $$
+
+\subsection*{2.1: Gaussian Elimination from Scratch}
+\textbf{Implement from scratch} a Python function \texttt{gaussian\_elimination(A, b)}.
+\begin{itemize}
+    \item The function should take a matrix $\mathbf{A}$ and a vector $\mathbf{b}$ as inputs.
+    \item \textbf{Forward Elimination:} Convert the augmented matrix $[\mathbf{A}|\mathbf{b}]$ into row echelon form. Your implementation should handle potential division by zero by performing row swaps (pivoting).
+    \item \textbf{Back Substitution:} Solve for $\mathbf{x}$ using the resulting upper triangular matrix.
+    \item The function \textbf{should} handle all cases:
+\begin{itemize}
+    \item Return the solution vector $\mathbf{x}$ if there is exactly one \textbf{unique solution} (consistent system).
+    \item Return \texttt{"No solution} if there is \textbf{no solution} (system is inconsistent).
+    \item Return a clear indication (e.g., the string \texttt{"Infinite solutions"}) if there are \textbf{infinitely many solutions} (the system is still consistent but with free variables).
+\end{itemize}
+
+
+    \item Test your function on the system above.
+\end{itemize}
+
+\subsection*{2.2: NumPy Verification}
+Use \texttt{numpy.linalg.solve(A, b)} to solve the same system and verify your implementation's correctness.
+
+\vspace{2em}
+\hrule
+\section*{Submission}
+
+You are required to submit a single ZIP file containing **two separate documents**:
+
+\begin{enumerate}
+    \item \textbf{Python File (`.py`):} This file must contain all your Python code and the verification checks. Ensure your code is well-commented.
+    
+    \item \textbf{Explanation Document (`.pdf`):} A separate PDF file where you provide a detailed, written explanation for each function you implemented from scratch. For each function, you should:
+    \begin{itemize}
+        \item Explain the algorithm you chose in your own words.
+        \item Describe the key steps of your implementation.
+        \item Justify any important design choices you made (e.g., how you handled certain data structures or edge cases).
+    \end{itemize}
+\end{enumerate}
+
+This dual submission is designed to assess both your coding ability and your conceptual understanding of the algorithms.
+\end{document}
+% --- END DOCUMENT ---

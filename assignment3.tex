@@ -1,0 +1,130 @@
+\documentclass[12pt]{article}
+
+% --- PACKAGES ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+
+% --- HYPERREF SETUP ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Math4AI: Programming Assignment 3},
+    pdfpagemode=FullScreen,
+}
+
+% --- LISTINGS (CODE) SETUP ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                   
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% --- DOCUMENT TITLE ---
+\title{\textbf{Math4AI: Linear Algebra \\ Programming Assignment 3} \\ \large \vspace{5 mm}Matrix Inverse, Decompositions \& The Normal Equations}
+\author{National AI Academy}
+\date{\today}
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+
+\maketitle
+\hrule
+
+\section*{Instructions}
+
+\begin{itemize}
+    \item You are required to implement several core algorithms \textbf{from scratch}. Do not use high-level library functions (like \texttt{numpy.linalg.solve}) for the core implementation of a required function.
+    \item You \textbf{must} use \texttt{numpy} for verification of your results. This is a crucial step to help you debug your own code.
+    \item  This is an individual assignment. Any form of academic dishonesty, including plagiarism or unauthorized assistance, will be thoroughly investigated. Proven violations will result in serious disciplinary action.
+    \item For each problem, provide your Python code and the output that demonstrates its correctness and verifies it against \texttt{numpy} where required.
+    \item \textbf{Generality of Functions:} Your implementations should be robust. For vector and matrix operations, write your functions to handle inputs of arbitrary (but compatible) dimensions. For instance, a dot product function should work for 2D vectors or 100D vectors without modification.
+    \item \textbf{Notation:} Matrices are denoted by uppercase bold letters (e.g., $\mathbf{A}$), vectors by lowercase bold letters (e.g., $\mathbf{x}$), and scalars by lowercase italic letters (e.g., $c$).
+\end{itemize}
+
+\hrule\vspace{1em}
+
+\newpage
+\hrule
+\section*{Matrix Inverse, Decompositions \& The Normal Equations}
+\hrule\vspace{0.5em}
+
+\subsection*{The AI Connection: The Normal Equation for Regression}
+In machine learning, a cornerstone of linear regression is the \textbf{Normal Equation}, which gives a closed-form solution for the optimal model weights ($\boldsymbol{\theta}$):
+$$ \boldsymbol{\theta} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y} $$
+Notice the \textbf{matrix inverse}! While computationally we prefer other methods, this equation shows the theoretical importance of the inverse. Decompositions like LU are workhorse algorithms that make solving such systems computationally feasible by breaking a hard problem ($\mathbf{A}^{-1}$) into simpler steps ($\mathbf{L}$ and $\mathbf{U}$).
+
+We'll use matrix $\mathbf{A}$ from Assignment 2:
+$$ \mathbf{A} = \begin{pmatrix} 2 & 1 & 3 \\ 4 & 4 & 7 \\ 2 & 5 & 9 \end{pmatrix} $$
+
+\subsection*{3.1: Matrix Inverse via Gauss-Jordan Elimination from Scratch}
+\textbf{Implement from scratch} a Python function \texttt{invert\_matrix(A)}.
+\begin{itemize}
+    \item The function should take a square matrix $\mathbf{A}$.
+    \item Create the augmented matrix $[\mathbf{A}|\mathbf{I}]$, where $\mathbf{I}$ is the identity matrix of the same size.
+    \item Apply Gauss-Jordan elimination to transform $[\mathbf{A}|\mathbf{I}]$ into $[\mathbf{I}|\mathbf{A}^{-1}]$.
+    \item The function should return the inverted matrix $\mathbf{A}^{-1}$. If the matrix is singular (non-invertible), it should return \texttt{None}.
+    \item Test your function on matrix $\mathbf{A}$.
+\end{itemize}
+
+\subsection*{3.2: LU Decomposition from Scratch}
+\textbf{Implement from scratch} a Python function \texttt{lu\_decomposition(A)} that performs LU decomposition using the Doolittle algorithm.
+\begin{itemize}
+    \item The function should take a square matrix $\mathbf{A}$.
+    \item It should return two matrices, $\mathbf{L}$ (lower triangular with ones on the diagonal) and $\mathbf{U}$ (upper triangular).
+    \item Test your function on matrix $\mathbf{A}$.
+\end{itemize}
+
+\subsection*{3.3: NumPy Verification}
+\begin{enumerate}
+    \item Use \texttt{numpy.linalg.inv(A)} to compute the inverse of $\mathbf{A}$ and verify your result from 3.1.
+    \item Verify your LU decomposition by computing the matrix product $\mathbf{L}\mathbf{U}$ and showing that it is equal (or very close, due to floating-point arithmetic) to the original matrix $\mathbf{A}$. Note: SciPy's \texttt{scipy.linalg.lu} is the standard library function for this.
+\end{enumerate}
+
+\vspace{2em}
+\hrule
+\section*{Submission}
+
+You are required to submit a single ZIP file containing **two separate documents**:
+
+\begin{enumerate}
+    \item \textbf{Python File (`.py`):} This file must contain all your Python code and the verification checks. Ensure your code is well-commented.
+    
+    \item \textbf{Explanation Document (`.pdf`):} A separate PDF file where you provide a detailed, written explanation for each function you implemented from scratch. For each function, you should:
+    \begin{itemize}
+        \item Explain the algorithm you chose in your own words.
+        \item Describe the key steps of your implementation.
+        \item Justify any important design choices you made (e.g., how you handled certain data structures or edge cases).
+    \end{itemize}
+\end{enumerate}
+
+This dual submission is designed to assess both your coding ability and your conceptual understanding of the algorithms.
+
+\end{document}
+% --- END DOCUMENT ---

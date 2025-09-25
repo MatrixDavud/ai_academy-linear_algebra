@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+
+% --- PACKAGES ---
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{listings}
+
+% --- HYPERREF SETUP ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Math4AI: Programming Assignment 1},
+    pdfpagemode=FullScreen,
+}
+
+% --- LISTINGS (CODE) SETUP ---
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                   
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% --- DOCUMENT TITLE ---
+\title{\textbf{Math4AI: Linear Algebra \\ Programming Assignment 1} \\ \large \vspace{5 mm}Vector Operations \& Semantic Similarity}
+\author{National AI Academy}
+\date{\today}
+
+% --- BEGIN DOCUMENT ---
+\begin{document}
+
+\maketitle
+\hrule
+
+\section*{Instructions}
+
+\begin{itemize}
+    \item You \textbf{must} use \texttt{numpy} for verification of your results. This is a crucial step to help you debug your own code.
+    \item  This is an individual assignment. Any form of academic dishonesty, including plagiarism or unauthorized assistance, will be thoroughly investigated. Proven violations will result in serious disciplinary action.
+    \item For each problem, provide your Python code and the output that demonstrates its correctness and verifies it against \texttt{numpy} where required.
+    \item \textbf{Generality of Functions:} Your implementations should be robust. For vector and matrix operations, write your functions to handle inputs of arbitrary (but compatible) dimensions. For instance, a dot product function should work for 2D vectors or 100D vectors without modification.
+    \item \textbf{Notation:} Matrices are denoted by uppercase bold letters (e.g., $\mathbf{A}$), vectors by lowercase bold letters (e.g., $\mathbf{x}$), and scalars by lowercase italic letters (e.g., $c$).
+\end{itemize}
+
+\hrule\vspace{1em}
+
+\newpage
+\hrule
+\section*{Vector Operations \& Semantic Similarity}
+\hrule\vspace{0.5em}
+
+\subsection*{The AI Connection: Words as Vectors}
+In Natural Language Processing (NLP), we represent words as high-dimensional numerical vectors called \textbf{word embeddings}. The revolutionary idea is that a word's meaning is captured by its relationships to other words, which can be encoded geometrically. For example, we might find that $\mathbf{v}_{\text{king}} - \mathbf{v}_{\text{man}} + \mathbf{v}_{\text{woman}} \approx \mathbf{v}_{\text{queen}}$. This shows the vector space has learned a "gender + royalty" concept. The dot product between vectors measures their semantic similarity. This entire field is built upon the fundamental vector operations you will implement here.
+
+\vspace{1em}
+\textit{Source: For further reading, see Mikolov, T., et al. (2013). "Efficient Estimation of Word Representations in Vector Space." arXiv:1301.3781.}
+\vspace{1em}
+
+We will use simplified, 3D vectors for this exercise.
+
+\subsection*{1.1: The 'King - Man + Woman' Analogy}
+Implement the vector arithmetic $\mathbf{v}_{\text{king}} - \mathbf{v}_{\text{man}} + \mathbf{v}_{\text{woman}}$ using basic Python lists and loops. Compare your result with the vector $\mathbf{v}_{\text{queen}}$.
+
+\subsection*{1.2: Cosine Similarity from Scratch}
+The cosine similarity between two vectors $\mathbf{u}$ and $\mathbf{v}$ is a measure of their orientation similarity and is defined as:
+$$ \text{similarity}(\mathbf{u}, \mathbf{v}) = \cos(\theta) = \frac{\mathbf{u} \cdot \mathbf{v}}{\|\mathbf{u}\| \|\mathbf{v}\|} $$
+where $\mathbf{u} \cdot \mathbf{v}$ is the dot product and $\|\mathbf{u}\|$ is the Euclidean norm (or length) of the vector, $\|\mathbf{u}\| = \sqrt{u_1^2 + u_2^2 + \dots + u_n^2}$.
+
+\begin{enumerate}
+    \item \textbf{Implement from scratch} a Python function \texttt{dot\_product(u, v)} that computes the dot product of two vectors.
+    \item \textbf{Implement from scratch} a Python function \texttt{norm(u)} that computes the L2 norm of a vector.
+    \item \textbf{Implement from scratch} a Python function \texttt{cosine\_similarity(u, v)} that uses your two functions above.
+    \item Calculate the cosine similarity between the result from 1.1 and $\mathbf{v}_{\text{queen}}$. A value close to 1 indicates very high similarity.
+\end{enumerate}
+
+\subsection*{1.3: NumPy Verification}
+Repeat the analogy calculation and cosine similarity using NumPy array operations. Verify that your scratch implementations match the results from \texttt{np.dot()}, \texttt{np.linalg.norm()}, and NumPy-based calculations.
+
+\vspace{2em}
+\hrule
+\section*{Submission}
+
+You are required to submit a single ZIP file containing **two separate documents**:
+
+\begin{enumerate}
+    \item \textbf{Python File (`.py`):} This file must contain all your Python code and the verification checks. Ensure your code is well-commented.
+    
+    \item \textbf{Explanation Document (`.pdf`):} A separate PDF file where you provide a detailed, written explanation for each function you implemented from scratch. For each function, you should:
+    \begin{itemize}
+        \item Explain the algorithm you chose in your own words.
+        \item Describe the key steps of your implementation.
+        \item Justify any important design choices you made (e.g., how you handled certain data structures or edge cases).
+    \end{itemize}
+\end{enumerate}
+
+This dual submission is designed to assess both your coding ability and your conceptual understanding of the algorithms.
+
+\end{document}
+% --- END DOCUMENT ---
